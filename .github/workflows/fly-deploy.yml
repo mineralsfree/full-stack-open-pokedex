@@ -33,7 +33,10 @@ jobs:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
-      - name: tag
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.71.0
         if: ${{ github.event_name == 'push' }}
         env:
