@@ -34,14 +34,14 @@ jobs:
         if: success()
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed. Commit - ${{ github.sha }} '
       - name: Deployment failed notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         if: failure()
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Failed to deploy {{ EVENT_PAYLOAD.repository.full_name }}'
+          args: 'Failed to deploy {{ EVENT_PAYLOAD.repository.full_name }} for commit ${{ github.sha }}'
 
   tag_release:
     needs: [simple_deployment_pipeline]
