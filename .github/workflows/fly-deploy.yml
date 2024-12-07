@@ -24,10 +24,22 @@ jobs:
       - name: build
         run: npm run build
       - name: deploy
-        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message), ''), '#skip')}}
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.id), ''), '#skip')}}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Deployment succeed notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+      - name: Deployment failed notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'Failed to deploy {{ EVENT_PAYLOAD.repository.full_name }}'
 
   tag_release:
     needs: [simple_deployment_pipeline]
