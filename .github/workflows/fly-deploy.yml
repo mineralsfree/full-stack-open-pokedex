@@ -31,12 +31,14 @@ jobs:
       - name: Deployment succeed notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: success()
         uses: Ilshidur/action-discord@master
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
       - name: Deployment failed notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: failure()
         uses: Ilshidur/action-discord@master
         with:
           args: 'Failed to deploy {{ EVENT_PAYLOAD.repository.full_name }}'
