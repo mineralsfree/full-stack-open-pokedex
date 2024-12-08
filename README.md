@@ -2,6 +2,8 @@
 
 ## UH course
 
+11.20 Your own pipeline task - https://github.com/mineralsfree/anecdotes
+
 This repository is used for the CI/CD module of the Full stack open course
 
 Fork the repository to complete course exercises
